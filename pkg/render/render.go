@@ -19,18 +19,11 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 	if !ok {
 		log.Fatal(err)
 	}
-	buff := new(bytes.Buffer)
-	_ = t.Execute(buff, nil)
-	_, err = buff.WriteTo(w)
+	buf := new(bytes.Buffer)
+	_ = t.Execute(buf, nil)
+	_, err = buf.WriteTo(w)
 	if err != nil {
 		log.Println("Error writing template to:" + err.Error())
-	}
-
-	parsedTemplate, _ := template.ParseFiles("./templates/" + tmpl)
-	err = parsedTemplate.Execute(w, nil)
-	if err != nil {
-		log.Println("Error message:" + err.Error())
-		return
 	}
 }
 
