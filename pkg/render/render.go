@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 
 	"github.com/HongXiangZuniga/GoWebApplication/pkg/config"
+	"github.com/HongXiangZuniga/GoWebApplication/templates"
 )
 
 var functions = template.FuncMap{}
@@ -18,7 +19,12 @@ func NewTemplates(appConfig *config.AppConfig) {
 	app = appConfig
 }
 
-func RenderTemplate(w http.ResponseWriter, tmpl string) {
+func AddDefaultData(templateData *templates.TemplateData) *templates.TemplateData {
+
+	return templateData
+}
+
+func RenderTemplate(w http.ResponseWriter, tmpl string, data *templates.TemplateData) {
 	var tc map[string]*template.Template
 	if app.UseCache {
 		tc = app.TemplateCache
@@ -31,7 +37,8 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 		log.Fatal(("Could not get template from template cache"))
 	}
 	buf := new(bytes.Buffer)
-	_ = t.Execute(buf, nil)
+	templateData := AddDefaultData(data)
+	_ = t.Execute(buf, templateData)
 	_, err := buf.WriteTo(w)
 	if err != nil {
 		log.Println("Error writing template to:" + err.Error())

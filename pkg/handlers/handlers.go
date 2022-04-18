@@ -5,7 +5,10 @@ import (
 
 	"github.com/HongXiangZuniga/GoWebApplication/pkg/config"
 	"github.com/HongXiangZuniga/GoWebApplication/pkg/render"
+	"github.com/HongXiangZuniga/GoWebApplication/templates"
 )
+
+//TemplateData holds data sents from handlers to template
 
 // Repo the repository used by the handlers
 var Repo *Repository
@@ -26,9 +29,15 @@ func NewHandlers(r *Repository) {
 }
 
 func (repo *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "home.page.tmpl")
+	render.RenderTemplate(w, "home.page.tmpl", &templates.TemplateData{})
 }
 
 func (repo *Repository) About(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "about.page.tmpl")
+
+	stringMap := make(map[string]string)
+	stringMap["test"] = "Hello again"
+
+	render.RenderTemplate(w, "about.page.tmpl", &templates.TemplateData{
+		StringMap: stringMap,
+	})
 }
