@@ -10,7 +10,7 @@ import (
 	"github.com/HongXiangZuniga/GoWebApplication/pkg/render"
 )
 
-const portNumber = ":8080"
+const portNumber = ":8081"
 
 func main() {
 	var app config.AppConfig
